@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>sarah lives in <error type="capitalization" correction="Paris" reason="Proper noun capitalization.">paris</error><error type="punctuation" correction="," reason="Missing comma to separate city and country."> </error><error type="capitalization" correction="France" reason="Proper noun capitalization.">france</error>.</p>
+</section>

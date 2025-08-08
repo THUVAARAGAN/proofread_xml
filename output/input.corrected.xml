@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section orientation="portrait">
+    <section-number class="section">1.1</section-number>
+    <section-heading class="heading_1" id="po-heading-id_8zVhkRmG2UmRtdw-29DEnA">Proofread XML</section-heading>
+    <p id="id-1">For breakfast I like eggs<error type="punctuation" correction="," reason="Comma in a list."> </error>toast<error type="punctuation" correction=", and" reason="Oxford comma before 'and' in a list."> </error>and juice.</p>
+    <p id="id-9">The <error type="grammar" correction="company's" reason="Possessive form is needed to indicate that the employees belong to the company.">companys</error> employees work <error type="grammar" correction="unhappy" reason="The sentence structure is incorrect; it should be 'but they are unhappy' to be grammatically correct.">hard</error> but <error type="grammar" correction="they're" reason="Use they're (they are) instead of possessive their.">their</error> unhappy.</p>
+    <p id="id-14">They always eat dinner together at home.</p>
+    <p>sarah lives in <error type="capitalization" correction="Paris" reason="Proper noun capitalization.">paris</error><error type="punctuation" correction="," reason="Comma between city and country."> </error><error type="capitalization" correction="France" reason="Proper noun capitalization.">france</error>?<error type="punctuation" correction="." reason="Statement should end with a period."> </error><error type="capitalization" correction="France" reason="Proper noun 'France' should be capitalized.">She</error> <error type="grammar" correction="enjoys" reason="Subject-verb agreement.">enjoy</error> <error type="capitalization" correction="French" reason="Nationalities are capitalized.">french</error> food.</p>
+</section>

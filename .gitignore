@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# dotenv environment variables
+.env
+
+# VSCode and IDE settings
+.vscode/
+.idea/
+
+# macOS system files
+.DS_Store

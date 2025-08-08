@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>For breakfast I like<error type="punctuation" correction="," reason="Missing comma in a list."> </error>eggs<error type="punctuation" correction="," reason="Comma in a list."> </error>toast<error type="punctuation" correction=", and" reason="Oxford comma before 'and' in a list."> </error>and juice.</p>
+</section>

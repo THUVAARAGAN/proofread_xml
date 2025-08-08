@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Hello<error type="punctuation" correction=", " reason="Missing space after comma.">,</error>world<error type="punctuation" correction="! " reason="Missing space after exclamation mark.">!</error>This is a test.</p>
+</section>

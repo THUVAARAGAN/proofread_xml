@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section xml:lang="fr">
+  <p><error type="capitalization" correction="Paris" reason="Proper nouns should be capitalized.">paris</error> est la capitale <error type="capitalization" correction="France" reason="Proper nouns should be capitalized.">de la france</error>?</p>
+</section>

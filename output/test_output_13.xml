@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>We had fun<error type="punctuation" correction="." reason="A period is needed to separate the two independent clauses."> </error>😀 it was great!</p>
+</section>

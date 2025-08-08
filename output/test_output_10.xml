@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>He <error type="grammar" correction="let's" reason="Missing apostrophe in the contraction 'let's'.">said "lets</error><error type="punctuation" correction="," reason="Missing comma before 'then' in a compound sentence."> </error>go", then they left</p>
+</section>

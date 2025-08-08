@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Items<error type="punctuation" correction="," reason="Missing comma before 'bananas' in a list.">:</error> apples <error type="punctuation" correction="," reason="Missing comma before 'and' in a list."> </error><error type="grammar" correction=" " reason="Extra spaces between 'bananas' and 'and'.">bananas</error> <error type="grammar" correction=" " reason="Extra spaces between 'and' and 'cherries'.">  and</error>   cherries.</p>
+</section>

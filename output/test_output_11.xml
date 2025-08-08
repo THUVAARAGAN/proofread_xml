@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>The distance is 5<error type="punctuation" correction="." reason="Missing punctuation to separate two independent clauses."> </error>km it takes<error type="punctuation" correction=" " reason="Missing space between '20' and 'min'."> </error>20min to walk.</p>
+</section>

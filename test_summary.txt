@@ -1,0 +1,357 @@
+==============================
+ TEST CASE 1: Basic grammar + list commas
+==============================
+Purpose:
+Tests missing commas in a list. Ensures correct placement, including Oxford comma.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>For breakfast I like eggs toast and juice.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>For breakfast I like<error type="punctuation" correction="," reason="Missing comma in a list."> </error>eggs<error type="punctuation" correction="," reason="Comma in a list."> </error>toast<error type="punctuation" correction=", and" reason="Oxford comma before 'and' in a list."> </error>and juice.</p>
+</section>
+
+Expected:
+- Insert comma after "like" before "eggs".
+- Insert comma after "eggs" before "toast".
+- Insert ", and" before "and juice".
+
+
+------------------------------------------------
+ TEST CASE 2: Contractions & subject-verb agreement
+------------------------------------------------
+Purpose:
+Checks misuse of “their” vs “they’re” and incorrect “don’t” with singular subject.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Their going to the park but he don't like running.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Their <error type="grammar" correction="They're" reason="Incorrect use of 'Their' instead of the contraction 'They're' for 'They are'.">going</error> to the park <error type="grammar" correction="doesn't" reason="Incorrect use of 'don't' with 'he'; it should be 'doesn't' for third person singular.">but he</error> don't like running.</p>
+</section>
+
+Expected:
+- “Their” → “They’re”
+- “don’t” → “doesn’t” with “he”.
+
+
+------------------------------------------------
+ TEST CASE 3: Proper nouns + city/country comma
+------------------------------------------------
+Purpose:
+Capitalization and comma between city and country.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>sarah lives in paris france.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>sarah lives in <error type="capitalization" correction="Paris" reason="Proper noun capitalization.">paris</error><error type="punctuation" correction="," reason="Missing comma to separate city and country."> </error><error type="capitalization" correction="France" reason="Proper noun capitalization.">france</error>.</p>
+</section>
+
+Expected:
+- “Sarah”, “Paris”, “France”.
+- Comma between city & country.
+
+
+------------------------------------------------
+ TEST CASE 4: Statement vs question punctuation
+------------------------------------------------
+Purpose:
+Ensure declarative sentence doesn’t end with a question mark.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>He lives in Rome? She visits every summer.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>He lives in Rome?<error type="punctuation" correction="." reason="Statement should end with a period."> </error>She visits every summer.</p>
+</section>
+
+Expected:
+- Replace “?” with “.” for declaratives.
+
+
+------------------------------------------------
+ TEST CASE 5: Already correct text
+------------------------------------------------
+Purpose:
+No changes when there are no issues.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>They traveled to Japan last summer.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>They traveled to Japan last summer.</p>
+</section>
+
+Expected:
+- No <error> tags, identical output.
+
+
+------------------------------------------------
+ TEST CASE 6: Missing spaces after punctuation
+------------------------------------------------
+Purpose:
+Detect missing spaces after punctuation.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Hello,world!This is a test.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Hello<error type="punctuation" correction=", " reason="Missing space after comma.">,</error>world<error type="punctuation" correction="! " reason="Missing space after exclamation mark.">!</error>This is a test.</p>
+</section>
+
+Expected:
+- Add spaces after “,” and “!” (spans on punct only).
+
+
+------------------------------------------------
+ TEST CASE 7: Nested tags inside <p>
+------------------------------------------------
+Purpose:
+Ensure spans work across mixed content (fallback path).
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>The <b>companys</b> employees works very hard</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>The <b>comp</b><error type="grammar" correction="company's" reason="Possessive form is needed to indicate that the employees belong to the company."> </error>anys<error type="grammar" correction="work" reason="Subject-verb agreement error; 'employees' is plural, so the verb should be 'work' instead of 'works'.">y</error>emplo</p>
+ees works very hard</section>
+
+Expected:
+- “companys” → “company’s”
+- “works” → “work”
+- Output remains well-formed XML (no stray holders).
+
+
+------------------------------------------------
+ TEST CASE 8: CDATA preservation
+------------------------------------------------
+Purpose:
+Handle CDATA with proofreading; keep structure.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p><![CDATA[she said lets go now]]></p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>she said<error type="punctuation" correction="'" reason="Missing apostrophe in the contraction 'let's'."> </error>lets go now</p>
+</section>
+
+Expected:
+- “let’s” correction via punctuation span.
+- CDATA parsed/preserved by parser settings.
+
+
+------------------------------------------------
+ TEST CASE 9: Whitespace runs
+------------------------------------------------
+Purpose:
+Do not collapse multiple spaces; spans must target a single space or punct.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Items: apples  bananas   and   cherries.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Items<error type="punctuation" correction="," reason="Missing comma before 'bananas' in a list.">:</error> apples <error type="punctuation" correction="," reason="Missing comma before 'and' in a list."> </error><error type="grammar" correction=" " reason="Extra spaces between 'bananas' and 'and'.">bananas</error> <error type="grammar" correction=" " reason="Extra spaces between 'and' and 'cherries'.">  and</error>   cherries.</p>
+</section>
+
+Expected:
+- Punctuation spans should not include letters.
+- Whitespace counts remain unchanged.
+
+
+------------------------------------------------
+ TEST CASE 10: Quotes & apostrophes
+------------------------------------------------
+Purpose:
+Detect missing apostrophe and comma in compound sentence.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>He said "lets go", then they left</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>He <error type="grammar" correction="let's" reason="Missing apostrophe in the contraction 'let's'.">said "lets</error><error type="punctuation" correction="," reason="Missing comma before 'then' in a compound sentence."> </error>go", then they left</p>
+</section>
+
+Expected:
+- “lets” → “let’s”
+- Comma before “then” (compound sentence).
+- Likely missing period at end (model-dependent).
+
+
+------------------------------------------------
+ TEST CASE 11: Numbers, units, punctuation
+------------------------------------------------
+Purpose:
+Missing separator between clauses; spacing around units.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>The distance is 5 km it takes 20min to walk.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>The distance is 5<error type="punctuation" correction="." reason="Missing punctuation to separate two independent clauses."> </error>km it takes<error type="punctuation" correction=" " reason="Missing space between '20' and 'min'."> </error>20min to walk.</p>
+</section>
+
+Expected:
+- Add separator (comma/period/semicolon).
+- “20min” → “20 min” (space) if flagged.
+
+
+------------------------------------------------
+ TEST CASE 12: Multi-language (fr)
+------------------------------------------------
+Purpose:
+BCP-47 awareness; French capitalization & punctuation.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section xml:lang="fr">
+  <p>paris est la capitale de la france?</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section xml:lang="fr">
+  <p><error type="capitalization" correction="Paris" reason="Proper nouns should be capitalized.">paris</error> est la capitale <error type="capitalization" correction="France" reason="Proper nouns should be capitalized.">de la france</error>?</p>
+</section>
+
+Expected:
+- “Paris”, “France”.
+- Possibly “.” instead of “?” depending on intent.
+
+
+------------------------------------------------
+ TEST CASE 13: Emojis & symbols
+------------------------------------------------
+Purpose:
+Offsets should remain correct with emojis in the string.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>We had fun 😀 it was great!</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>We had fun<error type="punctuation" correction="." reason="A period is needed to separate the two independent clauses."> </error>😀 it was great!</p>
+</section>
+
+Expected:
+- Add separator between independent clauses.
+- Offsets must not break due to emoji.
+
+
+------------------------------------------------
+ TEST CASE 14: Empty & whitespace-only paragraphs
+------------------------------------------------
+Purpose:
+Ensure no changes and no crashes on empty/whitespace-only <p>.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p></p>
+  <p>   </p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p/>
+  <p><error type="grammar" correction="" reason="Excessive whitespace at the beginning of the text.">   </error></p>
+</section>
+
+Expected:
+- Typically no changes; your pipeline currently flags whitespace — confirm policy.
+- No crashes.
+
+
+------------------------------------------------
+ TEST CASE 15: Long doc (performance & mixed cases)
+------------------------------------------------
+Purpose:
+End-to-end run across many paragraphs; validates summary metrics and invariants.
+
+Input:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Intro text with an error their.</p>
+  <p>Another para with a list eggs toast and juice.</p>
+  <p>No issues here.</p>
+  <p>She enjoy walking.</p>
+  <p>sarah lives in paris france?</p>
+  <p>Hello,world!This is a test.</p>
+  <p>The <i>companys</i> policy are strict.</p>
+</section>
+
+Output:
+<?xml version='1.0' encoding='utf-8'?>
+<section>
+  <p>Intro text with an error <error type="grammar" correction="they're" reason="Use they're (they are) instead of possessive their.">their</error>.</p>
+  <p>Another para with a list eggs<error type="punctuation" correction="," reason="Items in a list should be separated by commas."> </error>toast and juice.</p>
+  <p>No issues here.</p>
+  <p><error type="grammar" correction="enjoys" reason="Subject-verb agreement error; 'She' requires the verb to be in the third person singular form.">She enjoy</error> walking.</p>
+  <p><error type="capitalization" correction="Sarah" reason="Proper nouns should be capitalized.">sarah</error> <error type="capitalization" correction="Paris" reason="Proper nouns should be capitalized.">lives in paris</error><error type="punctuation" correction="." reason="A statement should end with a period, not a question mark."> </error><error type="capitalization" correction="France" reason="Proper noun capitalization.">france</error>?</p>
+  <p>Hello<error type="punctuation" correction=", " reason="Missing space after comma.">,</error>world<error type="punctuation" correction="! " reason="Missing space after exclamation mark.">!</error>This is a test.</p>
+  <p>The <i>company</i><error type="spelling" correction="company's" reason="Missing apostrophe for possessive form."> </error>s<error type="grammar" correction="is" reason="Subject-verb agreement; 'policy' is singular.">y ar</error>polic</p>
+e strict.</section>
+
+Expected:
+- Mix of grammar, punctuation, capitalization.
+- Invariant score should be 1.0 (your goal); check for any deviations and adjust normalizer if needed.

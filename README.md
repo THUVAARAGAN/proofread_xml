@@ -18,11 +18,11 @@ This project automatically proofreads `<p>` elements inside XML files using **Op
 ## 📂 Project Structure
 ```
 
-proofread\_xml/
+proofread_xml/
 │
-├── proofread\_xml.py     # Main CLI entry point
-├── genai\_client.py      # OpenAI API integration
-├── xml\_utils.py         # XML parsing and <error> tag insertion
+├── proofread_xml.py     # Main CLI entry point
+├── genai_client.py      # OpenAI API integration
+├── xml_utils.py         # XML parsing and <error> tag insertion
 ├── requirements.txt     # Python dependencies
 ├── .env                 # Configuration file
 └── README.md            # This file

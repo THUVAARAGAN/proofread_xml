@@ -27,6 +27,8 @@ proofread_xml/
 ├── .env                 # Configuration file
 └── README.md            # This file
 
+Add input/ output/ folders
+
 ````
 
 ---
